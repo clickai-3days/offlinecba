@@ -1,0 +1,94 @@
+
+import React from 'react';
+import { Terminal, Gift, Cpu, Database, Code2, Globe, MessageSquare, Zap } from 'lucide-react';
+import { FEATURES, PRICING } from '../constants';
+
+const FeatureList: React.FC = () => {
+  const getIcon = (index: number) => {
+    const icons = [
+        <Cpu className="w-5 h-5" />, 
+        <Terminal className="w-5 h-5" />, 
+        <Code2 className="w-5 h-5" />, 
+        <MessageSquare className="w-5 h-5" />, 
+        <Globe className="w-5 h-5" />, 
+        <Zap className="w-5 h-5" />, 
+        <Database className="w-5 h-5" />, 
+        <Globe className="w-5 h-5" />  
+    ];
+    return icons[index] || <Terminal className="w-5 h-5" />;
+  };
+
+  const formatCurrency = (amount: number) => {
+    return new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(amount);
+  };
+
+  return (
+    <div className="space-y-6 mb-8">
+      <div className="flex items-center gap-2 mb-4">
+        <div className="flex gap-1.5">
+          <div className="w-3 h-3 rounded-full bg-blue-400"></div>
+          <div className="w-3 h-3 rounded-full bg-indigo-400"></div>
+          <div className="w-3 h-3 rounded-full bg-cyan-400"></div>
+        </div>
+        <div className="text-xs text-gray-400 font-mono ml-2">ai_vibe_config.json</div>
+      </div>
+
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        {FEATURES.map((item, index) => (
+          <div 
+            key={index} 
+            className="group relative bg-white/60 backdrop-blur-sm rounded-xl border border-gray-200 p-4 hover:bg-white hover:shadow-lg hover:shadow-blue-500/10 hover:border-blue-200 transition-all duration-300"
+          >
+            {/* Tech Decoration */}
+            <div className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity text-blue-300">
+                <svg width="10" height="10" viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M1 9V1H9" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                </svg>
+            </div>
+            <div className="absolute bottom-2 left-2 opacity-0 group-hover:opacity-100 transition-opacity text-blue-300">
+                <svg width="10" height="10" viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M9 1V9H1" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                </svg>
+            </div>
+
+            <div className="flex items-start gap-4">
+              <div className="mt-1 w-10 h-10 rounded-lg bg-blue-50 group-hover:bg-blue-100 flex items-center justify-center text-blue-600 group-hover:text-blue-700 transition-colors">
+                 {getIcon(index)}
+              </div>
+              
+              <div className="flex-1">
+                <div className="font-mono text-xs text-blue-500 mb-1 opacity-80 group-hover:opacity-100">
+                   {`// module_0${index + 1}`}
+                </div>
+                
+                <h3 className="font-bold text-gray-800 text-sm md:text-base leading-tight mb-2 group-hover:text-blue-700 transition-colors">
+                  {item.text.replace(/Module \d+: /, '')}
+                </h3>
+                
+                <p className="text-sm text-gray-600 mb-3 leading-relaxed">
+                  {item.highlight}
+                </p>
+
+                {item.value && (
+                    <div className="inline-flex items-center gap-1.5 px-2 py-1 rounded bg-gray-50 border border-gray-100 group-hover:border-blue-100 group-hover:bg-blue-50/50 transition-colors">
+                        <Gift className="w-3 h-3 text-blue-500" />
+                        <span className="text-[10px] uppercase text-gray-400 font-bold">Valued at:</span>
+                        <span className="text-xs font-bold text-blue-600 font-mono">{item.value}</span>
+                    </div>
+                )}
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      <div className="pt-4 mt-4 border-t border-dashed border-gray-200 text-center font-mono text-sm">
+          <span className="text-gray-400">total_value = </span> 
+          <span className="text-blue-600 font-extrabold text-lg">{formatCurrency(PRICING.originalPrice)}</span>
+          <span className="text-gray-400">;</span>
+      </div>
+    </div>
+  );
+};
+
+export default FeatureList;
